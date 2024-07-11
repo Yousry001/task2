@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:quiz_app/screens/category_screen.dart';
+import 'package:quiz_app/screens/login_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
 @override
 Widget build(BuildContext context) {
-  return Scaffold(
-    backgroundColor: Colors.green,
-    body: Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        const Spacer(),
-        Center(
-          child: Image.asset(
-            'assets/images/alien.png',
-            height: 100,
-            width: 100,
-          ),),
+  var sizedBox = SizedBox (
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          const Spacer(),
+          Center(
+            child: Image.asset(
+              'assets/images/alien.png',
+              height: 100,
+              width: 100,
+            ),),
 const Spacer(),
 Container(
   height: MediaQuery.of(context).size.height * 2 / 3,
@@ -39,12 +43,20 @@ const Padding(
     fontSize: 26,
     fontWeight: FontWeight.bold),),),
 
-const TextField(
+ TextFormField(
+
+  validator: (value) {
+    if (value!.isEmpty){
+      return 'user field cant be empty';
+    } else if (value.length<3){
+      'username must be at least 3 characters';
+    }
+
+  },
   decoration: InputDecoration(
   enabledBorder: OutlineInputBorder(
   borderSide: BorderSide(width: 0),
-  borderRadius: BorderRadius.all(
-    Radius.circular(20),),),
+  borderRadius: BorderRadius.all(Radius.circular(20),),),
 
   focusedBorder: OutlineInputBorder(
   borderRadius: BorderRadius.all(
@@ -53,9 +65,16 @@ const TextField(
       label: Text('Username'),
       prefixIcon: Icon(Icons.person),),),
 
-const Padding(
+ Padding(
   padding: EdgeInsets.symmetric(vertical: 16.0),
-    child: TextField(
+    child: TextFormField(
+
+      validator: (value) {
+    if (value!.isEmpty){
+      return 'password field cant be empty';
+    } else if (value.length<8){
+      'password must be at least 8 characters';
+    }},
       decoration: InputDecoration(
       enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(width: 0),
@@ -86,7 +105,12 @@ SizedBox(
     backgroundColor: Colors.green,
     elevation: 10,),
 
-onPressed: () {},
+onPressed: () {Navigator.push(
+  context,
+  MaterialPageRoute<void>(
+    builder: (BuildContext context) =>
+       CategoryScreen(),),);
+      },
   child: const Text('Login',style: TextStyle(color: Colors.white),),),),),
                   
   Image.asset('assets/images/fingerprint.png',width: 50,),
@@ -95,7 +119,7 @@ onPressed: () {},
                  
   Row(
       children: [
-        Checkbox(
+        Checkbox( 
                  activeColor: Colors.green,
                  value: true,
                  onChanged: (bool? value) {},),
@@ -106,5 +130,9 @@ onPressed: () {},
 ),],
 ),),),],
 ),);
+  return Scaffold(
+    backgroundColor: Colors.green,
+    body:SingleChildScrollView(
+    child: sizedBox,),);
   }
 }
