@@ -42,7 +42,7 @@ class QuestionsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                "1st Qestion",
+                "Question number 1",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Text(
