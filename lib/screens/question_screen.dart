@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/screens/score_screen.dart';
 
 
-class QuestionsScreen extends StatelessWidget {
-    const QuestionsScreen({super.key});
+class QuestionsScreen extends StatefulWidget {
+  @override
+  State<QuestionsScreen> createState() => _QuestionsScreenState();
+}
 
+class _QuestionsScreenState extends State<QuestionsScreen> {
+  int _questionsIndex = 0;
+  int _totalScore = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        leading: IconButton(
+        leading: IconButton( 
           icon: Icon(Icons.logout),
           onPressed: () {},
         ),
@@ -42,46 +46,47 @@ class QuestionsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                "Question number 1",
+                "Question number ${_QuestionsIndix+1}",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              Text(
-                "What is the last country to host the world cup?",
+           Text(
+                iqQuestions[_QuestionsIndix]['question'],
                 style: TextStyle(fontSize: 16),
               ),
               SizedBox(
                 height: 22,
               ),
+              for (int i=0;
+              i<(iqQuestions[_QuestionsIndix]['answers'] as List).length;
+              i++)
               ElevatedButton(onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const ScoreScreen(), 
-                  ),
-                );
-              }, child: Text("USA")),
-              ElevatedButton(onPressed: () {Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const ScoreScreen(), 
-                  ),
-                );}, child: Text("Qatar")),
-              ElevatedButton(onPressed: () {Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const ScoreScreen(), 
-                  ),
-                );}, child: Text("France")),
-              ElevatedButton(onPressed: () {Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const ScoreScreen(), 
-                  ),
-                );}, child: Text("Egypt")),
+                _totalScore = _totalScore+
+                iqQuestions[_QuestionsIndix]['answers'][i]
+                  ['score' as int];
+          if (_QuestionsIndix<(iqQuestions.length-1)){
+            setState(() {
+              _QuestionsIndix++;
+            });
+          }else{
+          Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const ScoreScreen(
+                    totalScore: _totalScore,
+                    numberOfQuestions: iqQuestions.length,
+                  ), 
+                ),
+              );   }
+      print('ur index is ${_QuestionsIndix}');
+      print('ur total score is ${_totalScore}');
+
+              }, 
+              child: Text(iqQuestions[_QuestionsIndix]['answers'][i]['ans'])),
             ],
           ),
         ),
       ),
+           
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         items: [
